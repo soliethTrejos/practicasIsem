@@ -1,23 +1,27 @@
 #include <iostream>
 #include <string.h>
 #include "variables.h"
+#include <locale.h>
 
 using namespace std;
 
 CIUDAD ciudades[MAX_REG];
-
 int pos = 0;
 
 // crud
+int obtPos(int id);
 void agregar(CIUDAD *c);
-void editar(CIUDAD *c, int od);
-void eliminar(CIUDAD *c);
-void buscar(CIUDAD *c);
-void menu(int op);
+void editar(CIUDAD *c, int id);
+void eliminar(int id);
+CIUDAD buscar(int id);
+int menu();
 void principal();
 void pedirDatos();
+void mostrarDatos();
+void showData(CIUDAD);
+void editarDatos();
 
-void agregarc(CIUDAD *c)
+void agregar(CIUDAD *c)
 {
     ciudades[pos] = *c;
     pos++;
@@ -58,7 +62,7 @@ void editar(CIUDAD *c, int id)
 void eliminar(int id)
 {
     int posi = obtPos(id);
-    for (int i = 0; i < pos; i++)
+    for (int i = posi; i < pos - 1; i++)
     {
         ciudades[i] = ciudades[i + 1];
     }
@@ -67,18 +71,20 @@ void eliminar(int id)
 
 int menu()
 {
+    setlocale(LC_ALL, "spanish");
     int op;
-    cout << " Menu\n";
-    cout << " 1. agregar\n";
-    cout << "2. editar\n";
-    cout << "3. eliminar\n";
-    cout << "4. buscar\n";
-    cout << "5. Mostrar todo\n";
-    cout << "6. sarli\n";
-    cout << " Dijite su opcion";
+    cout << "Menu \n";
+    cout << "1. Agregar\n";
+    cout << "2. Editar \n";
+    cout << "3. Eliminar \n";
+    cout << "4. Buscar \n";
+    cout << "5. Mostrar Todo\n";
+    cout << "6. Salir\n ";
+    cout << "Digite la opci�n ";
     cin >> op;
     return op;
 }
+
 void principal()
 {
     int op;
@@ -87,29 +93,65 @@ void principal()
         op = menu();
         switch (op)
         {
-        case1:
+        case 1:
             pedirDatos();
             break;
-        case6:
-            cout << "adios, mi tierno\n";
+        case 4:
+            showData(CIUDAD);
+            break;
+        case 5:
+            mostrarDatos();
+            break;
+        case 6:
+            cout << "Adios, mi tierno\n";
             break;
         default:
-            cout << "no seas neofito si solo hay 6\n";
+            cout << "No seas neofito si solo hay 6\n";
             break;
         }
+
     } while (op != 6);
 }
 
 void pedirDatos()
 {
     CIUDAD ciudad;
-    cout << "datos de ciudad\n";
-    cout << "ID:  ";
+    cout << "Datos de Ciudad\n";
+    cout << "ID: ";
     cin >> ciudad.id;
-    cout << "nombre:";
-    cin >> ciudad.nombre;
-    cout << "descripcion:";
-    cin >> ciudad.descripcion;
+    cout << "NOMBRE: ";
+    scanf(" %[^\n]", ciudad.nombre);
+    cout << "DESCRIPCION: ";
+    scanf(" %[^\n]", ciudad.descripcion);
     agregar(&ciudad);
-    cout << "registro agregado....\n";
+    cout << "Registro Agregado....\n";
 }
+
+void mostrarDatos()
+{
+    for (int i = 0; i < pos; i++)
+    {
+        cout << "ID: " << ciudades[i].id << endl;
+        cout << "Nombre: " << ciudades[i].nombre << endl;
+        cout << "Descripcion " << ciudades[i].descripcion << endl;
+    }
+}
+
+void buscarxID()
+{
+    int id;
+    cout << "Dime el ID de la ciudad a buscar: ";
+    cin >> id;
+    CIUDAD c;
+    c = buscar(id);
+    showData(c);
+}
+void showData (int position){
+    cout << "ID: " << ciudades[position].id << endl;
+    cout << "Nombre: " << ciudades[position].nombre << endl;
+    cout << "Descripcion " << ciudades[position].descripcion << endl;
+}
+
+// void editarDatos(){
+//     int id
+// }

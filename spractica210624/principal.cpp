@@ -1,5 +1,5 @@
 #include<iostream>
-#include "funciones.cpp"
+#include "daoCiudad.cpp"
 #include <locale.h>
 
 using namespace std;
@@ -11,4 +11,3 @@ int main()
     principal();
     return 0;
 }
-
